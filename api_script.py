@@ -4,13 +4,14 @@ from datetime import date, timedelta
 import requests
 from dotenv import load_dotenv
 
+IMAGES_FOLDER_PATH = "./photos"
+
 def is_image(media_type: str) -> bool:
     return media_type == 'image'
 
 def create_images_folder() -> None:
-    images_folder = "photos"
-    if not os.path.exists(images_folder):
-        os.makedirs(images_folder)
+    if not os.path.exists(IMAGES_FOLDER_PATH):
+        os.makedirs(IMAGES_FOLDER_PATH)
 
 load_dotenv()
 
@@ -28,13 +29,18 @@ params = {
     }
 
 response = requests.get(apod_url, params=params)
-
 print(response.text)
+
+create_images_folder()
 
 if response.status_code == 200:
     if is_image(response.json()['media_type']):
         hd_image_url = response.json()["hdurl"]
-        print(hd_image_url)
-
+        response = requests.get(hd_image_url)
+        
+        with open(f"{IMAGES_FOLDER_PATH}/{yesterday}.jpg", "wb") as f:
+            f.write(response.content)
 else:
     print(f"Operation failed. Status code: {response.status_code}.")
+
+    

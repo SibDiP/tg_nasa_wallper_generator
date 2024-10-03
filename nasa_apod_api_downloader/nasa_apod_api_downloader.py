@@ -48,6 +48,7 @@ def download_apod_image(target_date: date = None) -> None:
             
             with open(f"{IMAGES_FOLDER_PATH}/{target_date}.jpg", "wb") as f:
                 f.write(response.content)
+                logging.info(f"Downloaded image at {target_date}.")
         else:
             logging.warning(f"Probobly no picture at {target_date}.\n    >Media type: {media_type} \n    >Response code: {response.status_code}")
     else:

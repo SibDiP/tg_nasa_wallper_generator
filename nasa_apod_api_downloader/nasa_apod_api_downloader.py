@@ -6,7 +6,12 @@ import logging
 import requests
 from dotenv import load_dotenv
 
-IMAGES_FOLDER_PATH = "./photos"
+load_dotenv()
+IMAGES_OUTPUT_DIR = "./photos"
+# APOD - Astronomy Picture of the Day 
+APOD_URL = os.getenv("APOD_URL")
+# get your own api_keyfrom https://api.nasa.gov/ and put in .env file in root dir.
+API_KEY = os.getenv("API_KEY")
 
 logging.basicConfig(level=logging.INFO)
 
@@ -14,30 +19,37 @@ def is_image(media_type: str) -> bool:
     return media_type == 'image'
 
 def create_images_folder() -> None:
-    if not os.path.exists(IMAGES_FOLDER_PATH):
-        os.makedirs(IMAGES_FOLDER_PATH)
-        logging.info
+    
+    if not os.path.exists(IMAGES_OUTPUT_DIR):
+        os.makedirs(IMAGES_OUTPUT_DIR)
+        logging.info(f"Created {IMAGES_OUTPUT_DIR} folder.")
 
 def download_apod_image(target_date: date = None) -> None:
-    # APOD - Astronomy Picture of the Day 
-    apod_url = "https://api.nasa.gov/planetary/apod"
-    # get your own api_keyfrom https://api.nasa.gov/ and put in .env file in root.
-    load_dotenv()
-    api_key = os.getenv("API_KEY")
+    """
+    Downloads an image from the NASA APOD api for the given date.
 
+    If target_date is None, the function will take yesterday's date because of the timezone 
+    differenceissues (it can be yesterday in USA timezone).
+
+    The function logs the status of the operation and the downloaded file.
+
+    :param target_date: The date for which the image is downloaded
+    :type target_date: date
+    :return: None
+    """
     if target_date is None:
-        # Take yesterday becouse of the timezone differences. 
+        # Take yesterday becouse of the timezone difference issues (it can be yesterday in USA timezone). 
         yesterday = date.today() - timedelta(days=1)
         target_date = yesterday
         logging.info(f"Target date is {target_date}")
 
     params = {
-        "api_key": api_key,
+        "api_key": API_KEY,
         "date": f"{target_date.year}-{target_date.month}-{target_date.day}"
         #"date": "2022-01-1"
         }
 
-    response = requests.get(apod_url, params=params)
+    response = requests.get(APOD_URL, params=params)
     logging.info(f"Response:\n{json.dumps(response.json(), indent=4)}")
 
     media_type = response.json()['media_type']
@@ -46,7 +58,7 @@ def download_apod_image(target_date: date = None) -> None:
             hd_image_url = response.json()["hdurl"]
             response = requests.get(hd_image_url)
             
-            with open(f"{IMAGES_FOLDER_PATH}/{target_date}.jpg", "wb") as f:
+            with open(f"{IMAGES_OUTPUT_DIR}/{target_date}.jpg", "wb") as f:
                 f.write(response.content)
                 logging.info(f"Downloaded image at {target_date}.")
         else:

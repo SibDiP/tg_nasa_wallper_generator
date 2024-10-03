@@ -6,7 +6,7 @@ import logging
 import requests
 from dotenv import load_dotenv
 
-IMAGES_FOLDER_PATH = "./photos"
+IMAGES_FOLDER_PATH = "../photos"
 
 logging.basicConfig(level=logging.INFO)
 

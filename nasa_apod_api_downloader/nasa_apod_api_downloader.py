@@ -7,7 +7,7 @@ import requests
 from dotenv import load_dotenv
 
 load_dotenv()
-IMAGES_OUTPUT_DIR = "./photos"
+IMAGES_OUTPUT_DIR = os.getenv("IMAGES_OUTPUT_DIR")
 # APOD - Astronomy Picture of the Day 
 APOD_URL = os.getenv("APOD_URL")
 # get your own api_keyfrom https://api.nasa.gov/ and put in .env file in root dir.
@@ -50,9 +50,10 @@ def download_apod_image(target_date: date = None) -> None:
         }
 
     response = requests.get(APOD_URL, params=params)
+    media_type = response.json()['media_type']
     logging.info(f"Response:\n{json.dumps(response.json(), indent=4)}")
 
-    media_type = response.json()['media_type']
+
     if response.status_code == 200:
         if is_image(media_type):
             hd_image_url = response.json()["hdurl"]

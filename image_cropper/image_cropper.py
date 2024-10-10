@@ -1,9 +1,18 @@
 from PIL import Image
 import os
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
 
 def crop_image(image_path: str, output_path: str) -> None:
 
-    image = Image.open(image_path)
+    try:
+        image = Image.open(image_path)
+    except FileNotFoundError:
+        logging.error(f"Original image file not found: {image_path}")
+        exit()
+
     width, height = image.size
     
     # New 9:16 picture size
@@ -17,4 +26,10 @@ def crop_image(image_path: str, output_path: str) -> None:
     bottom = top + new_height
     
     cropped_image = image.crop((left, top, right, bottom))
-    cropped_image.save(output_path)
+    try:
+        cropped_image.save(output_path)
+    except FileNotFoundError:
+        logging.error(f"Can't save cropped image. Output file path not found: {output_path}")
+        exit()
+
+crop_image("photos/CometA3_Mueras_1872.jpg", "photoss/cropped.jpg")

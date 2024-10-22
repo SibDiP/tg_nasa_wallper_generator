@@ -6,7 +6,10 @@ import logging
 import requests
 from dotenv import load_dotenv
 
+from utils import utils
+
 load_dotenv()
+
 IMAGES_OUTPUT_DIR = os.getenv("IMAGES_OUTPUT_DIR")
 # APOD - Astronomy Picture of the Day 
 APOD_URL = os.getenv("APOD_URL")
@@ -17,12 +20,6 @@ logging.basicConfig(level=logging.INFO)
 
 def is_image(media_type: str) -> bool:
     return media_type == 'image'
-
-def create_images_folder() -> None:
-    
-    if not os.path.exists(IMAGES_OUTPUT_DIR):
-        os.makedirs(IMAGES_OUTPUT_DIR)
-        logging.info(f"Created {IMAGES_OUTPUT_DIR} folder.")
 
 def download_apod_image(target_date: date = None) -> None:
     """
@@ -66,10 +63,3 @@ def download_apod_image(target_date: date = None) -> None:
             logging.warning(f"Probobly no picture at {target_date}.\n    >Media type: {media_type} \n    >Response code: {response.status_code}")
     else:
         logging.warning(f"Operation failed. Status code: {response.status_code}.")
-
-def main() -> None:
-    create_images_folder()
-    download_apod_image()
-
-if __name__ == "__main__":
-    main()

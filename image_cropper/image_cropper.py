@@ -7,6 +7,16 @@ logging.basicConfig(level=logging.INFO)
 
 def crop_image(image_path: str, output_path: str) -> None:
 
+    """
+    Crops the given image to 9:16 ratio and saves it to the output path.
+
+    Args:
+        image_path: The path to the image to be cropped.
+        output_path: The path where the cropped image will be saved.
+
+    Returns:
+        None
+    """
     try:
         image = Image.open(image_path)
     except FileNotFoundError:
@@ -28,8 +38,7 @@ def crop_image(image_path: str, output_path: str) -> None:
     cropped_image = image.crop((left, top, right, bottom))
     try:
         cropped_image.save(output_path)
+        logging.info(f"Cropped image saved to: {output_path}")
     except FileNotFoundError:
         logging.error(f"Can't save cropped image. Output file path not found: {output_path}")
         exit()
-
-crop_image("photos/CometA3_Mueras_1872.jpg", "photoss/cropped.jpg")

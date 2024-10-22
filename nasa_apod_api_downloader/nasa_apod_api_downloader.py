@@ -63,7 +63,3 @@ def download_apod_image(target_date: date = None) -> None:
             logging.warning(f"Probobly no picture at {target_date}.\n    >Media type: {media_type} \n    >Response code: {response.status_code}")
     else:
         logging.warning(f"Operation failed. Status code: {response.status_code}.")
-
-
-if __name__ == "__main__":
-    main()

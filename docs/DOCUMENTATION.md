@@ -23,7 +23,7 @@ Stored in .env.
 - `API_URL`: URL of the NASA APOD API.
 - `IMAGES_OUTPUT_DIR`: Directory for saved photos. './photos' by defoult.
 
-# **Image Cropper Documentation**
+# **Image Cropper**
 
 ## Overview
 
@@ -78,7 +78,7 @@ crop_image(input_image_path, output_image_path)
 This will crop the `input_image.jpg` file to a 9:16 aspect ratio and save the cropped image to `output_image.jpg`.
 
 
-# utils.py
+# utils
 
 
 ## Module Description

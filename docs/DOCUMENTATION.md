@@ -23,6 +23,41 @@ Stored in .env.
 - `API_URL`: URL of the NASA APOD API.
 - `IMAGES_OUTPUT_DIR`: Directory for saved photos. './photos' by defoult.
 
+# utils.py
+================
+
+## Module Description
+
+This module provides utility functions for creating directories.
+
+## Functions
+
+### `create_images_folder(dir: str) -> None`
+
+Creates a directory at the specified path if it does not already exist.
+
+#### Args
+
+- `dir`: The path to the directory to be created.
+
+#### Returns
+
+- `None`
+
+#### Raises
+
+- If an error occurs while creating the directory.
+
+#### Example
+
+```python
+create_images_folder("/path/to/images")
+```
+
+## Logging
+
+This module uses the `logging` module to log events at the INFO level. The logging configuration is set up using `logging.basicConfig(level=logging.INFO)`.
+
 ### Author
 
 - Dmitrii Pivnev (sibdip)

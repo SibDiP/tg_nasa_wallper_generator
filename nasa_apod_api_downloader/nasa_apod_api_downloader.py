@@ -10,7 +10,6 @@ from utils import utils
 
 load_dotenv()
 
-IMAGES_OUTPUT_DIR = os.getenv("IMAGES_OUTPUT_DIR")
 # APOD - Astronomy Picture of the Day 
 APOD_URL = os.getenv("APOD_URL")
 # get your own api_keyfrom https://api.nasa.gov/ and put in .env file in root dir.
@@ -45,10 +44,10 @@ def download_apod_image(images_download_path: str, target_date: date = None,) ->
         "date": f"{target_date.year}-{target_date.month}-{target_date.day}"
         #"date": "2022-01-1"
         }
-
     response = requests.get(APOD_URL, params=params)
     media_type = response.json()['media_type']
     logging.info(f"Response:\n{json.dumps(response.json(), indent=4)}")
+    downloaded_file_name = f"{target_date}.png"
 
 
     if response.status_code == 200:
@@ -56,10 +55,16 @@ def download_apod_image(images_download_path: str, target_date: date = None,) ->
             hd_image_url = response.json()["hdurl"]
             response = requests.get(hd_image_url)
             
-            with open(f"{images_download_path}/{target_date}.jpg", "wb") as f:
+            with open(f"{images_download_path}/{downloaded_file_name}", "wb") as f:
                 f.write(response.content)
                 logging.info(f"Downloaded image at {target_date}.")
         else:
             logging.warning(f"Probobly no picture at {target_date}.\n    >Media type: {media_type} \n    >Response code: {response.status_code}")
     else:
         logging.warning(f"Operation failed. Status code: {response.status_code}.")
+    
+    return downloaded_file_name
+
+
+if __name__ == "__main__":
+    main()

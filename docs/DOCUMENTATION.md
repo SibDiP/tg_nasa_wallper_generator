@@ -1,8 +1,9 @@
-# **NASA APOD API Downloader**
+# **NASA APOD API Downloader** 
+!todo - need to be update
 
 ## Description
 
-This script allows to download images from the NASA APOD (Astronomy Picture of the Day) API.
+This script allows to download images from the NASA APOD (Astronomy Picture of the Day) API and return string with name of the downloaded file.
 
 ## Usage
 
@@ -10,18 +11,18 @@ Add your NASA api_key to 'example.env' and rename it to '.env'.
 
 ## Functions
 
-### download_apod_image(target_date: date = None) -> None
+### download_apod_image(images_download_path: str, target_date: date = None) -> str
 
-Downloads an image from the NASA APOD API to IMAGES_OUTPUT_DIR.
+Downloads an image from the NASA APOD API to IMAGES_OUTPUT_DIR in .png and return files name.
 
 - `date`: The date of the target image in date format. Take yesterday by defoult because of the timezone difference issues (it can be yesterday in USA timezone).
+- `images_download_path`: path where image shoul be saved.
 
 ### Constants
 Stored in .env.
 
 - `API_KEY`: Default NASA APOD API key.
 - `API_URL`: URL of the NASA APOD API.
-- `IMAGES_OUTPUT_DIR`: Directory for saved photos. './photos' by defoult.
 
 # **Image Cropper**
 

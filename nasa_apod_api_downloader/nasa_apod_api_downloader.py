@@ -21,7 +21,7 @@ logging.basicConfig(level=logging.INFO)
 def is_image(media_type: str) -> bool:
     return media_type == 'image'
 
-def download_apod_image(target_date: date = None) -> None:
+def download_apod_image(images_download_path: str, target_date: date = None,) -> None:
     """
     Downloads an image from the NASA APOD api for the given date.
 
@@ -56,7 +56,7 @@ def download_apod_image(target_date: date = None) -> None:
             hd_image_url = response.json()["hdurl"]
             response = requests.get(hd_image_url)
             
-            with open(f"{IMAGES_OUTPUT_DIR}/{target_date}.jpg", "wb") as f:
+            with open(f"{images_download_path}/{target_date}.jpg", "wb") as f:
                 f.write(response.content)
                 logging.info(f"Downloaded image at {target_date}.")
         else:

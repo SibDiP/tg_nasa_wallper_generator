@@ -7,7 +7,7 @@ from utils import utils
 
 load_dotenv()
 
-IMAGES_OUTPUT_DIR = os.getenv("IMAGES_OUTPUT_DIR")
+IMAGES_DOWNLOAD_PATH = os.getenv("IMAGES_DOWNLOAD_PATH")
 
-utils.create_images_folder(IMAGES_OUTPUT_DIR)
-nasa_apod_api_downloader.download_apod_image()
+utils.create_images_folder(IMAGES_DOWNLOAD_PATH)
+nasa_apod_api_downloader.download_apod_image(IMAGES_DOWNLOAD_PATH)

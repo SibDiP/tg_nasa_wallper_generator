@@ -17,6 +17,9 @@ def crop_image(image_path: str, output_path: str) -> None:
     Returns:
         None
     """
+    FULL_CROPPED_FILE_PATH = output_path
+
+
     try:
         image = Image.open(image_path)
     except FileNotFoundError:
@@ -37,8 +40,8 @@ def crop_image(image_path: str, output_path: str) -> None:
     
     cropped_image = image.crop((left, top, right, bottom))
     try:
-        cropped_image.save(output_path)
-        logging.info(f"Cropped image saved to: {output_path}")
+        cropped_image.save(FULL_CROPPED_FILE_PATH)
+        logging.info(f"Cropped image saved to: {FULL_CROPPED_FILE_PATH}")
     except FileNotFoundError:
-        logging.error(f"Can't save cropped image. Output file path not found: {output_path}")
+        logging.error(f"Can't save cropped image. Output file path not found: {FULL_CROPPED_FILE_PATH}")
         exit()
